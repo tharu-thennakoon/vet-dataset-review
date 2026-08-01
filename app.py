@@ -490,50 +490,9 @@ with data_column:
     )
 
 
-# =========================================================
-# 17. EMAIL CORRECTION INSTRUCTIONS
-# =========================================================
-st.divider()
-
-st.subheader(
-    "How to Provide Corrections"
-)
-
-st.write(
-    "Please send corrections by email. "
-    "Include the Case ID or Image Name "
-    "so that the record can be identified."
-)
-
-email_template = f"""
-Case ID: {case_id}
-Image Name: {image_name}
-Dataset Label: {disease_label}
-
-Image label assessment:
-Correct / Incorrect / Uncertain
-
-Suggested disease label:
-[Enter corrected disease if required]
-
-Clinical data assessment:
-Realistic / Partly realistic / Unrealistic
-
-Metadata corrections:
-[Enter corrections]
-
-Additional comments:
-[Enter any additional comments]
-""".strip()
-
-st.code(
-    email_template,
-    language=None
-)
-
 
 # =========================================================
-# 18. DATASET SUMMARY
+# 17. DATASET SUMMARY
 # =========================================================
 with st.expander(
     "View sample dataset summary"
