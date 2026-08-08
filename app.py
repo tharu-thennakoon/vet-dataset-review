@@ -15,12 +15,12 @@ st.set_page_config(
     layout="wide"
 )
 
-
 # =========================================================
 # 2. FILE PATHS
 # =========================================================
 CSV_PATH = Path("sample_data.csv")
 IMAGE_FOLDER = Path("images")
+
 
 SUPPORTED_IMAGE_EXTENSIONS = {
     ".jpg",
