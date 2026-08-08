@@ -397,10 +397,19 @@ with image_column:
 
             image.load()
 
-            st.image(
-                image,
-                use_column_width=True
-            )
+            try:
+                st.image(
+                    image,
+                    use_container_width=True
+                )
+            except TypeError:
+                try:
+                    st.image(
+                        image,
+                        use_column_width=True
+                    )
+                except TypeError:
+                    st.image(image)
 
         except UnidentifiedImageError:
             st.error(
