@@ -399,7 +399,7 @@ with image_column:
 
             st.image(
                 image,
-                use_column_width=True
+                use_container_width=True
             )
 
         except UnidentifiedImageError:
