@@ -399,7 +399,7 @@ with image_column:
 
             st.image(
                 image,
-                use_container_width=True
+                use_column_width=True
             )
 
         except UnidentifiedImageError:
@@ -424,48 +424,57 @@ with data_column:
     display_columns = [
         (
             "Disease label",
-            "Label"
+            "Label",
+            "Ground truth disease class"
         ),
         (
             "Age in months",
-            "Age_Months"
+            "Age_Months",
+            "Dog's age in months"
         ),
         (
             "Breed type",
-            "Breed_Type"
+            "Breed_Type",
+            "Purebred or Mixed (or specific breeds if applicable)"
         ),
         (
             "Itching severity",
-            "Itching_Severity"
+            "Itching_Severity",
+            "None, Low, Medium, or High"
         ),
         (
             "Lesion location",
-            "Lesion_Location"
+            "Lesion_Location",
+            "Face, Paws, Body, Ears, or Belly"
         ),
         (
             "Hair loss",
-            "Hair_Loss"
+            "Hair_Loss",
+            "None, Partial, or Severe"
         ),
         (
             "Symptom duration",
-            "Symptom_Duration_Days"
+            "Symptom_Duration_Days",
+            "Number of days the symptoms have been present"
         ),
         (
             "Clinical text",
-            "Clinical_Text"
+            "Clinical_Text",
+            "Complete clinical narrative describing the case"
         )
     ]
 
     table_data = []
 
-    for display_name, column_name in display_columns:
+    for display_name, column_name, description in display_columns:
         table_data.append(
             {
                 "Field": display_name,
                 "Value": get_value(
                     record,
                     column_name
-                )
+                ),
+                "Description": description
             }
         )
 
@@ -473,20 +482,11 @@ with data_column:
         table_data
     )
 
-    st.dataframe(
-        table_df,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            "Field": st.column_config.TextColumn(
-                "Clinical field",
-                width="medium"
-            ),
-            "Value": st.column_config.TextColumn(
-                "Dataset value",
-                width="large"
-            )
-        }
+    # Set index to empty strings to hide it in the UI
+    table_df.index = [""] * len(table_df)
+
+    st.table(
+        table_df
     )
 
 
