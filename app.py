@@ -47,7 +47,6 @@ TARGET_CLASSES = [
 # =========================================================
 # 4. LOAD CSV DATA
 # =========================================================
-@st.cache_data
 def load_dataset(csv_path: str) -> pd.DataFrame:
     path = Path(csv_path)
 
@@ -57,6 +56,7 @@ def load_dataset(csv_path: str) -> pd.DataFrame:
         )
 
     dataframe = pd.read_csv(path)
+    dataframe["Case_Number"] = range(1, len(dataframe) + 1)
 
     required_columns = [
         "Case_ID",
@@ -261,6 +261,7 @@ case_options = []
 
 for index, row in filtered_df.iterrows():
     case_options.append(
+        f"Case {row['Case_Number']} | "
         f"{row['Case_ID']} | "
         f"{row['Label']} | "
         f"{row['Image_Name']}"
@@ -306,8 +307,8 @@ with progress_column:
         ">
             <strong>
                 Case {
-                    st.session_state.case_index + 1
-                } of {len(filtered_df)}
+                    filtered_df.iloc[st.session_state.case_index]['Case_Number']
+                } (Record {st.session_state.case_index + 1} of {len(filtered_df)})
             </strong>
         </div>
         """,
@@ -403,13 +404,7 @@ with image_column:
                     use_container_width=True
                 )
             except TypeError:
-                try:
-                    st.image(
-                        image,
-                        use_column_width=True
-                    )
-                except TypeError:
-                    st.image(image)
+                st.image(image)
 
         except UnidentifiedImageError:
             st.error(
@@ -449,17 +444,17 @@ with data_column:
         (
             "Itching severity",
             "Itching_Severity",
-            "None, Low, Medium, or High"
+            "Severity level of itching"
         ),
         (
             "Lesion location",
             "Lesion_Location",
-            "Face, Paws, Body, Ears, or Belly"
+            "Main affected body region"
         ),
         (
             "Hair loss",
             "Hair_Loss",
-            "None, Partial, or Severe"
+            "Degree of hair loss"
         ),
         (
             "Symptom duration",
